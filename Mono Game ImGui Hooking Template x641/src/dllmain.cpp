@@ -1,0 +1,65 @@
+﻿#include <Windows.h>
+#include <iostream>
+
+#include "../include/hooking.h"
+#include "../render/include/rendercore.h"
+
+DWORD WINAPI HackThread(HMODULE hModule) {
+	//Cấp phát console
+#ifdef _DEBUG
+	AllocConsole();
+	FILE* f;
+	freopen_s(&f, "CONOUT$", "w", stdout);
+#endif
+
+    //Cài đặt hooking
+	Hooking::implementHooking();
+
+	//Vòng lặp để giữ cho DLL không bị Eject 
+	while (!GetAsyncKeyState(VK_END)) {
+	}
+
+	//Cleanup here
+	Hooking::unHook();
+	Sleep(500);
+	render.cleanup();
+	Sleep(500);
+	Hooking::freeCOM();
+	//Sleep(500);
+	//Hooking::freeGateway();
+
+    Sleep(1000);
+#ifdef _DEBUG
+	FreeConsole();
+	if (f) {
+		fclose(f);
+	}
+#endif
+	FreeLibraryAndExitThread(hModule, 0);
+	return 0;
+}
+
+BOOL APIENTRY DllMain( HMODULE hModule,
+                       DWORD  ul_reason_for_call,
+                       LPVOID lpReserved
+                     )
+{
+    switch (ul_reason_for_call)
+    {
+    case DLL_PROCESS_ATTACH:
+    {
+		//Không quan tâm sự kiện Thread được tạo ra trong tiến trình khi windows gửi tới, tăng hiệu năng
+		DisableThreadLibraryCalls(hModule);
+		HANDLE thread = CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)HackThread, hModule, 0, nullptr);
+		if (thread) {
+			CloseHandle(thread);
+		}
+		break;
+    }
+        
+    case DLL_PROCESS_DETACH:
+        break;
+    }
+    return TRUE;
+}
+
