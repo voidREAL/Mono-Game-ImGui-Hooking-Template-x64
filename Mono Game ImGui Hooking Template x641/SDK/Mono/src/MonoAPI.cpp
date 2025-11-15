@@ -24,6 +24,12 @@ __int64 Mono::GetOffset(MonoField* field)
 	return getOffsetFunc(field);
 }
 
+void* Mono::GetArrayElement(MonoArray* arr, int elementSize, int index)
+{
+	if (!arr) return nullptr;
+	return *(void**)arrayAddressWithSizeFunc(arr, elementSize, index);
+}
+
 void Mono::Initialize()
 {
 	monoModule = GetMonoModule();
@@ -45,15 +51,20 @@ void Mono::Initialize()
 	getFieldFromNameFunc = (monoGetFieldFromName)(GetProcAddress(monoModule, "mono_class_get_field_from_name"));
 	getOffsetFunc = (monoGetOffset)(GetProcAddress(monoModule, "mono_field_get_offset"));
 	runtimeInvokeFunc = (monoRuntimeInvoke)(GetProcAddress(monoModule, "mono_runtime_invoke"));
+	arrayLengthFunc = (monoArrayLength)(GetProcAddress(monoModule, "mono_array_length"));
+	arrayAddressWithSizeFunc = (monoArrayAddressWithSize)(GetProcAddress(monoModule, "mono_array_addr_with_size"));
+	arrayElementSizeFunc = (monoArrayElementSize)(GetProcAddress(monoModule, "mono_array_element_size"));
+	objectGetClassFunc = (monoObjectGetClass)(GetProcAddress(monoModule, "mono_object_get_class"));
+	getClassNameFunc = (monoGetClassName)(GetProcAddress(monoModule, "mono_class_get_name"));
 
 	threadAttachFunc(getRootDomainFunc());
 
 	this->initialized = true;
 }
 
-void* Mono::GetMethod(const char* className, const char* methodName, int paramCount, const char* _namespace, const char* assemblyName /*= "Assembly-CSharp"*/)
+MonoMethod* Mono::GetMethod(const char* className, const char* methodName, int paramCount, const char* _namespace, const char* assemblyName /*= "Assembly-CSharp"*/)
 {
-	MonoClass* _class = GetClass(_namespace, className);
+	MonoClass* _class = GetClass(_namespace, className, assemblyName);
 	if (_class == nullptr) {
 		return nullptr;
 	}
@@ -66,18 +77,33 @@ void* Mono::GetMethod(const char* className, const char* methodName, int paramCo
 	return method;
 }
 
-void* Mono::GetClass(const char* _namespace, const char* className, const char* assemblyName)
+MonoMethod* Mono::GetMethod(MonoClass* _class, const char* methodName, int paramCount, const char* _namespace, const char* assemblyName)
+{
+	MonoMethod* method = classGetMethodFromNameFunc(_class, methodName, paramCount);
+	if (method == nullptr) {
+		return nullptr;
+	}
+
+	return method;
+}
+
+MonoClass* Mono::GetClass(const char* _namespace, const char* className, const char* assemblyName)
 {
 	MonoImage* image = GetImage(assemblyName);
 	return classFromNameFunc(image, _namespace, className);
 }
 
-void* Mono::GetField(MonoClass* _class, const char* fieldName)
+MonoClass* Mono::GetClass(MonoObject* object)
+{
+	return objectGetClassFunc(object);
+}
+
+MonoField* Mono::GetField(MonoClass* _class, const char* fieldName)
 {
 	return getFieldFromNameFunc(_class, fieldName);
 }
 
-void* Mono::GetVtable(MonoClass* _class)
+MonoVtable* Mono::GetVtable(MonoClass* _class)
 {
 	return getClassVtableFunc(GetDomain(), _class);
 }
@@ -89,6 +115,10 @@ void Mono::GetStaticFieldValue(MonoVtable* vtable, MonoField* staticField, void*
 
 void Mono::GetFieldValue(MonoObject* instance, MonoField* field, void* out)
 {
+	if (!instance) {
+		return;
+	}
+
 	return getFieldValueFunc(instance, field, out);
 }
 
@@ -97,12 +127,12 @@ __int64 Mono::InvokeMethod(MonoMethod* method, MonoObject* instance, void** para
 	return runtimeInvokeFunc(method, instance, paramsArray, exc);
 }
 
-void* Mono::GetDomain()
+MonoDomain* Mono::GetDomain()
 {
 	return getRootDomainFunc();
 }
 
-void* Mono::GetImage(const char* assemblyName)
+MonoAssembly* Mono::GetImage(const char* assemblyName)
 {
 	using _assemblyForEach = void* (*)(void(*)(void*, void*), void*);
 	_assemblyForEach assemblyForEachFunc = (_assemblyForEach)(GetProcAddress(monoModule, "mono_assembly_foreach"));
@@ -149,4 +179,15 @@ void* Mono::GetImage(const char* assemblyName)
 	assemblyForEachFunc(callback, &ctx);	
 
 	return ctx.result;
+}
+
+const char* Mono::GetNameClass(MonoClass* _class)
+{
+	return getClassNameFunc(_class);
+}
+
+int Mono::GetArrayLength(MonoArray* arr)
+{
+	if (!arr) return 0;
+	return arrayLengthFunc(arr);
 }

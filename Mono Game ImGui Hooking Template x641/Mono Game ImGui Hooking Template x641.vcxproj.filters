@@ -78,15 +78,6 @@
     <ClCompile Include="render\src\hack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="classes\src\Mono.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SDK\MonoAPI\src\MonoAPI.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SDK\Mono\include\MonoAPI.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SDK\Game\src\Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -173,25 +164,10 @@
     <ClInclude Include="render\include\onrender.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="classes\include\Mono.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="render\include\hack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="classes\include\include.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SDK\SDK.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SDK\MonoAPI\include\MonoAPI.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SDK\MonoAPI\include\MonoAPIPrototype.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SDK\MonoAPI\include\typedef.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SDK\Mono\include\MonoAPI.h">
@@ -252,6 +228,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SDK\Mono\include\Vtable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SDK\Utils\Include.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SDK\Utils\Macro.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SDK\Mono\include\Array.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

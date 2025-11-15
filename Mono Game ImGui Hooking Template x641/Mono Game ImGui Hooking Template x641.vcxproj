@@ -183,6 +183,7 @@
     <ClInclude Include="render\include\rendercore.h" />
     <ClInclude Include="SDK\Game\include\Player.h" />
     <ClInclude Include="SDK\Game\include\PlayerLife.h" />
+    <ClInclude Include="SDK\Mono\include\Array.h" />
     <ClInclude Include="SDK\Mono\include\Class.h" />
     <ClInclude Include="SDK\Mono\include\Field.h" />
     <ClInclude Include="SDK\Mono\include\Method.h" />

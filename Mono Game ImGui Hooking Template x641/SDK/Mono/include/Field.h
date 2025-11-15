@@ -15,8 +15,8 @@ public:
 		Mono::GetInstance().GetStaticFieldValue(vtable, staticField, out);
 	}
 
-	__forceinline static __int64 GetOffset(const char* className, const char* fieldName, const char* ns = "SDG.Unturned") {
-		MonoClass* _class = Mono::GetInstance().GetClass(ns, className);
+	__forceinline static __int64 GetOffset(const char* className, const char* fieldName, const char* ns = "SDG.Unturned", const char* assemblyName = "Assembly-CSharp") {
+		MonoClass* _class = Mono::GetInstance().GetClass(ns, className, assemblyName);
 		MonoField* field = Field::Get(_class, fieldName);
 
 		return Mono::GetInstance().GetOffset(field);

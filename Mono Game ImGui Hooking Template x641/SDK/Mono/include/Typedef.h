@@ -10,3 +10,7 @@ using MonoObject = void;
 using MonoVtable = void;
 using MonoField = void;
 using MonoMethod = void;
+using MonoArray = void;
+using MonoDomain = void;
+using MonoAssembly = void;
+using MonoPointer = void;
