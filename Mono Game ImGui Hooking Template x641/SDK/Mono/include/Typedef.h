@@ -1,4 +1,5 @@
-#pragma once
+﻿#pragma once
+#include <cstdint>
 
 using MonoThread = void;
 using MonoDomain = void;
@@ -10,7 +11,12 @@ using MonoObject = void;
 using MonoVtable = void;
 using MonoField = void;
 using MonoMethod = void;
-using MonoArray = void;
 using MonoDomain = void;
 using MonoAssembly = void;
 using MonoPointer = void;
+using MonoType = void;
+using MonoMethodDesc = void;
+using MonoArrayBound = void;
+using MonoArray = void;
+using MonoReflectionType = void;
+using MonoString = void;

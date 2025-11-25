@@ -190,6 +190,9 @@
     <ClInclude Include="SDK\Mono\include\MonoAPI.h" />
     <ClInclude Include="SDK\Mono\include\MonoAPIPrototype.h" />
     <ClInclude Include="SDK\Mono\include\Object.h" />
+    <ClInclude Include="SDK\Mono\include\Prototype.h" />
+    <ClInclude Include="SDK\Mono\include\String.h" />
+    <ClInclude Include="SDK\Mono\include\Type.h" />
     <ClInclude Include="SDK\Mono\include\Typedef.h" />
     <ClInclude Include="SDK\Mono\include\Vtable.h" />
     <ClInclude Include="SDK\SDK.h" />

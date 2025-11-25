@@ -12,7 +12,11 @@ public:
 	}
 
 	template<typename T>
-	__forceinline static T GetArrayElement(MonoArray* arr, int index) {
-		return Mono::GetInstance().GetArrayElement<T>(arr, index);
+	__forceinline static T GetArrayElement(T* arr, int index) {
+		return Mono::GetInstance().GetArrayElement<T>((MonoArray*)arr, index);
+	}
+
+	__forceinline static MonoArray* CreateArray(MonoClass* elementType, uintptr_t size) {
+		return Mono::GetInstance().CreateNewArray(elementType, size);
 	}
 };

@@ -239,5 +239,14 @@
     <ClInclude Include="SDK\Mono\include\Array.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SDK\Mono\include\Prototype.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SDK\Mono\include\String.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SDK\Mono\include\Type.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

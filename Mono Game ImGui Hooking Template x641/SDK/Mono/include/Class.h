@@ -15,4 +15,8 @@ public:
 	__forceinline static const char* GetNameClass(MonoClass* _class) {
 		return Mono::GetInstance().GetNameClass(_class);
 	}
+
+	__forceinline static MonoClass* GetClass(MonoType* type, bool isType) {
+		return Mono::GetInstance().GetClass(type, isType);
+	}
 };

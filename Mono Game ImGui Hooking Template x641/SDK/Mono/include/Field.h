@@ -1,6 +1,8 @@
 #pragma once
 #include "MonoAPI.h"
 
+#include <iostream>
+
 class Field {
 public:
 	__forceinline static MonoField* Get(MonoClass* _class, const char* fieldName) {
